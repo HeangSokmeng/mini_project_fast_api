@@ -1,0 +1,28 @@
+// Step 01
+mkdir fastapi_project
+cd fastapi_project
+
+// Step 02
+python -m venv venv
+venv\Scripts\activate
+
+
+// Step 03
+pip install fastapi uvicorn
+pip install sqlalchemy psycopg2-binary pydantic
+
+
+// Step 04
+Create structure  project
+sample:
+    ├── app/
+    │   ├── __init__.py
+    │   ├── main.py
+    │   ├── models.py
+    │   ├── schemas.py
+    │   ├── database.py
+    │   └── crud.py
+
+
+pip install alembic
+python -m app.core.seed.user_seeder
