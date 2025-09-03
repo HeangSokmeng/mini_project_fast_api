@@ -20,7 +20,7 @@ class AuthMiddleware:
         db: Session = Depends(get_db)
     ) -> User:
         try:
-            # Verify token
+            # Verify_token
             payload = token_helper.verify_token(credentials.credentials)
             user_id: int = payload.get("sub")
             if user_id is None:
@@ -33,6 +33,7 @@ class AuthMiddleware:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid authentication credentials"
             )
+            # filter==where
         user = db.query(User).filter(User.id == user_id).first()
         if user is None:
             raise HTTPException(
