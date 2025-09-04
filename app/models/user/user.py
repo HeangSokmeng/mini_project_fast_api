@@ -3,10 +3,10 @@ from datetime import datetime
 
 from passlib.context import CryptContext
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from app.core.database import Base
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 

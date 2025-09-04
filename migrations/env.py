@@ -3,27 +3,27 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+# Import your Base
 from app.core.database import Base
-# Import your models' Base
-from app.models.user.user import Base
-from app.models.user.user_role import Base
+# Import all models so Alembic knows about them
+from app.models.category import Category
+from app.models.product import Product  # example if you have it
+from app.models.user.user import User
+from app.models.user.user_role import UserRole
 
-# this is the Alembic Config object
+# Alembic config
 config = context.config
-
-# Interpret the config file for Python logging
 fileConfig(config.config_file_name)
 
-# Provide your models' metadata
+# Tell Alembic about metadata
 target_metadata = Base.metadata
 
 
 def run_migrations_offline():
-    """Run migrations in 'offline' mode."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
-        target_metadata=target_metadata,  # ✅ add metadata here
+        target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
     )
@@ -33,7 +33,6 @@ def run_migrations_offline():
 
 
 def run_migrations_online():
-    """Run migrations in 'online' mode."""
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",
@@ -43,7 +42,7 @@ def run_migrations_online():
     with connectable.connect() as connection:
         context.configure(
             connection=connection,
-            target_metadata=target_metadata,  # ✅ add metadata here
+            target_metadata=target_metadata,
         )
 
         with context.begin_transaction():
