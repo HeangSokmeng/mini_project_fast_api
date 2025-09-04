@@ -5,26 +5,31 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.helpers.response_helper import ResponseHelper
 from app.models.category import Category
+from app.schemas.category_schema import CategoryCreate
 
 router = APIRouter(prefix="/categories", tags=["Categories"])
 
 
 # ----------------- CREATE -----------------
 @router.post("/")
-def create_category(
-    name: str = Form(...),
-    description: str = Form(None),
-    is_active: bool = Form(True),
-    db: Session = Depends(get_db),
-):
-    existing = db.query(Category).filter(Category.name == name).first()
+def create_category(category_data: CategoryCreate, db: Session = Depends(get_db)):
+    # Check if category exists
+    existing = db.query(Category).filter(Category.name == category_data.name).first()
     if existing:
-        return ResponseHelper.error_response(message="Category already exists", status_code=400)
+        return ResponseHelper.error_response(
+            message="Category already exists", status_code=400
+        )
 
-    category = Category(name=name, description=description, is_active=is_active)
+    # Create new category
+    category = Category(
+        name=category_data.name,
+        description=category_data.description,
+        is_active=category_data.is_active
+    )
     db.add(category)
     db.commit()
     db.refresh(category)
+
     return ResponseHelper.success_response(
         data={
             "id": category.id,

@@ -17,8 +17,8 @@ class ResponseHelper:
             content={
                 "success": True,
                 "message": message,
-                "data": data,
-                "error": None
+                "error": None,
+                "data": data
             }
         )
 
@@ -34,8 +34,8 @@ class ResponseHelper:
             content={
                 "success": False,
                 "message": message,
-                "data": data,
-                "error": error
+                "error": error,
+                "data": data
             }
         )
 
